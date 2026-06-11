@@ -17,6 +17,7 @@ void philosopher(int id) {
             std::lock_guard<std::mutex> lock(cout_mutex);
             std::cout << "Philosopher " << id << " is thinking\n";
         }
+        // Simulate thinking time
         std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 100));
 
         {
@@ -30,6 +31,7 @@ void philosopher(int id) {
 
 
             /*
+            Issue with mutex locking order can lead to deadlock. To avoid this, we can enforce a strict locking order based on the index of the mutexes.
             std::lock_guard<std::mutex> lock1(mutexes[left]);
             std::this_thread::sleep_for(std::chrono::milliseconds(50));
             std::lock_guard<std::mutex> lock2(mutexes[right]);
@@ -41,7 +43,7 @@ void philosopher(int id) {
                 std::cout << "Philosopher " << id << " is eating\n";
             }
         }
-
+        // Simulate eating time
         std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 100));
     }
 
